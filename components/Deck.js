@@ -23,7 +23,14 @@ class Deck extends Component {
                 <Text style={styles.title}>{deck.name}</Text>
                 <Text style={styles.cardCounter}>{`Cards: ${deck.cards.length}`}</Text>
                 <Btn onPress={() => console.log("yes")} text="Start Quiz" disabled={false} color={orange}/>
-                <Btn onPress={() => console.log("yes")} text="Add Card" disabled={false} color={gray}/>
+                <Btn 
+                    onPress={() => this.props.navigation.navigate(
+                        'AddCard',
+                        { key : deck.name }
+                    )} 
+                    text="Add Card" 
+                    disabled={false} 
+                    color={gray}/>
             </View>
         )
     }

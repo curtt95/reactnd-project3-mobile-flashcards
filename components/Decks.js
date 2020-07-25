@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
   });
 
 function mapStateToProps(decks) {
+  console.log(decks)
+
     return {
         decks
     }

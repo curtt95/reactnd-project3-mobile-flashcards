@@ -16,6 +16,7 @@ import Quiz from './components/Quiz'
 import {FontAwesome, Ionicons} from "@expo/vector-icons";
 import { receiveDecks } from './actions'
 import Deck from './components/Deck';
+import AddCard from './components/AddCard';
 
 function TopStatusBar({backgroundColor, ...props}) {
   return (
@@ -80,6 +81,14 @@ const MainNav = () => (
         <Stack.Screen
             name="Deck"
             component={Deck}
+            options={{
+                headerTintColor: white, headerStyle: {
+                    backgroundColor: blue,
+                }
+            }}/>
+        <Stack.Screen
+            name="AddCard"
+            component={AddCard}
             options={{
                 headerTintColor: white, headerStyle: {
                     backgroundColor: blue,

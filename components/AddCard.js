@@ -1,11 +1,56 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
+import { blue, white } from '../utils/colors'
+import { addCard } from '../actions'
+import { submitCard } from '../utils/api'
+
+function SubmitBtn({onPress, disabled}) {
+    return (
+        <TouchableOpacity
+            style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
+            onPress={onPress}
+            disabled={disabled}>
+            <Text style={styles.submitBtnText}>Add Card</Text>
+        </TouchableOpacity>
+    )
+}
 
 class AddCard extends Component {
     state = {
         question: "",
         answer: ""
+    }
+
+    onChangeQuestion = (ques) => {
+        this.setState({
+            question: ques
+        });
+    }
+
+    onChangeAnswer = (ans) => {
+        this.setState({
+            answer: ans
+        });
+    }
+
+    submit = () => {
+        const { question, answer } = this.state
+        const { deck } = this.props
+
+        const card = {
+            question: question,
+            answer: answer
+        }
+
+        this.props.dispatch(addCard(deck, card))
+
+        this.setState(() => ({
+            question: "",
+            answer: ""
+        }))
+
+        submitCard({deck, card});
     }
 
     render() {
@@ -17,14 +62,16 @@ class AddCard extends Component {
                     Add Card
                 </Text>
                 <TextInput
+                    id="question"
                     style={styles.input}
-                    onChangeText={(text) => this.onChangeText(text)}
+                    onChangeText={(text) => this.onChangeQuestion(text)}
                     placeholder="Question..."
                     value={question}
                 />
                 <TextInput
+                    id="answer"
                     style={styles.input}
-                    onChangeText={(text) => this.onChangeText(text)}
+                    onChangeText={(text) => this.onChangeAnswer(text)}
                     placeholder="Answer..."
                     value={answer}
                 />
@@ -79,4 +126,12 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect()(AddCard)
+function mapStateToProps(decks, { route }) {
+    const { key } = route.params
+
+    return {
+        deck: decks[key]
+    }
+}
+
+export default connect(mapStateToProps)(AddCard)
