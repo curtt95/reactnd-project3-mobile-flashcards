@@ -2,17 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { blue, white, orange, gray } from '../utils/colors'
-
-function Btn({onPress, text, disabled, color}) {
-    return (
-        <TouchableOpacity
-            style={[Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn, {backgroundColor: color}]}
-            onPress={onPress}
-            disabled={disabled}>
-            <Text style={styles.submitBtnText}>{text}</Text>
-        </TouchableOpacity>
-    )
-}
+import SubmitButton from './SubmitButton'
 
 class Deck extends Component {
     render() {
@@ -22,8 +12,11 @@ class Deck extends Component {
             <View style={styles.container}>
                 <Text style={styles.title}>{deck.name}</Text>
                 <Text style={styles.cardCounter}>{`Cards: ${deck.cards.length}`}</Text>
-                <Btn onPress={() => console.log("yes")} text="Start Quiz" disabled={false} color={orange}/>
-                <Btn 
+                <SubmitButton onPress={() => this.props.navigation.navigate(
+                        'Quiz',
+                        { key : deck.name }
+                    )} text="Start Quiz" disabled={false} color={orange}/>
+                <SubmitButton 
                     onPress={() => this.props.navigation.navigate(
                         'AddCard',
                         { key : deck.name }
