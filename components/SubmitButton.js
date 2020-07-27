@@ -1,5 +1,6 @@
 import React from 'react'
 import { TouchableOpacity, StyleSheet, Text } from 'react-native'
+import { blue, gray, white, green, orange } from '../utils/colors'
 
 export default function SubmitButton({onPress, text, disabled, color}) {
     return (
