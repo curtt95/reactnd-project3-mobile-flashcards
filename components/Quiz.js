@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { blue, white, gray, red, green } from '../utils/colors'
+import { blue, white, gray, red, green, orange } from '../utils/colors'
 import SubmitButton from './SubmitButton'
 
 class Quiz extends Component {
@@ -26,24 +26,47 @@ class Quiz extends Component {
     handleCorrect = () => {
         this.setState({
             score: this.state.score + 1,
-            questionNumber: this.state.questionNumber + 1
+            questionNumber: this.state.questionNumber + 1,
+            showAnswer: false
         })
     }
 
     handleIncorrect = () => {
         this.setState({
-            questionNumber: this.state.questionNumber + 1
+            questionNumber: this.state.questionNumber + 1,
+            showAnswer: false
+        })
+    }
+
+    restartQuiz = () => {
+        this.setState({
+            score: 0,
+            questionNumber: 0,
+            showAnswer: false
         })
     }
 
     render() {
         const { score, questionNumber, showAnswer } = this.state
-        const { cards } = this.props
+        const { cards, deckname } = this.props
+
+        if (cards.length === 0) {
+            return (
+                <View style={styles.container}>
+                    <Text style={styles.title}>There are no cards in this deck</Text>
+                </View>
+            )
+        }
 
         if (questionNumber === cards.length) {
             return (
                 <View style={styles.container}>
                     <Text style={styles.title}>Score: {score > 0 ? Math.round((score / cards.length) * 100, 2) : 0}%</Text>
+                    <SubmitButton onPress={() =>
+                        this.props.navigation.navigate("Deck", { key: deckname })} 
+                        text="Back to Deck" 
+                        color={green}/>
+                    <SubmitButton onPress={this.restartQuiz} text="Restart Quiz" color={orange}/>
                 </View>
             )
         }
@@ -110,6 +133,7 @@ function mapStateToProps(decks, { route }) {
     const { key } = route.params
 
     return {
+        deckname: decks[key].name,
         cards: decks[key].cards
     }
 }

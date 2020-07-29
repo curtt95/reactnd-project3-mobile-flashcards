@@ -27,6 +27,9 @@ class Decks extends Component {
       const { ready } = this.state
       const { decks } = this.props
 
+      console.log("decks")
+      console.log(decks)
+
       const renderItem = ({ item }) => (
         <TouchableOpacity 
           style={styles.item}
@@ -79,8 +82,6 @@ const styles = StyleSheet.create({
   });
 
 function mapStateToProps(decks) {
-  console.log(decks)
-
     return {
         decks
     }

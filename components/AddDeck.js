@@ -11,7 +11,7 @@ function SubmitBtn({onPress, disabled}) {
             style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
             onPress={onPress}
             disabled={disabled}>
-            <Text style={styles.submitBtnText}>Add Deck</Text>
+            <Text style={styles.submitBtnText}>Create Deck</Text>
         </TouchableOpacity>
     )
 }
@@ -51,7 +51,7 @@ class AddDeck extends Component {
         return (
             <View style={styles.container}>
                 <Text style={{color: blue, fontSize: 25}}>
-                    Add Deck
+                    Create Deck
                 </Text>
                 <TextInput
                     style={styles.input}
