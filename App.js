@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { Component } from 'react';
 import { View, StatusBar, Platform } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -16,6 +16,7 @@ import {FontAwesome, Ionicons} from "@expo/vector-icons";
 import Deck from './components/Deck';
 import AddCard from './components/AddCard';
 import Quiz from './components/Quiz'
+import { setLocalNotification } from './utils/helpers'
 
 function TopStatusBar({backgroundColor, ...props}) {
   return (
@@ -106,17 +107,23 @@ const MainNav = () => (
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {
-  return (
-    <Provider store={createStore(reducer)}>
-        <View style={{flex:1}}>
-            <View style={{flex: 1}}>
-                <NavigationContainer>
-                    <TopStatusBar backgroundColor={blue} barStyle="light-content"/>
-                    <MainNav/>
-                </NavigationContainer>
-            </View>
-        </View>
-      </Provider>
-  );
+export default class App extends Component {
+    componentDidMount() {
+        setLocalNotification()
+    }
+
+    render() {
+        return (
+            <Provider store={createStore(reducer)}>
+                <View style={{flex:1}}>
+                    <View style={{flex: 1}}>
+                        <NavigationContainer>
+                            <TopStatusBar backgroundColor={blue} barStyle="light-content"/>
+                            <MainNav/>
+                        </NavigationContainer>
+                    </View>
+                </View>
+            </Provider>
+        )
+    }
 }

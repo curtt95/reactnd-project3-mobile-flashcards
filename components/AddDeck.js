@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { submitDeck } from '../utils/api'
 import { addDeck } from '../actions'
 import { white, blue } from '../utils/colors'
+import { clearLocalNotification, setLocalNotification } from '../utils/helpers'
 
 function SubmitBtn({onPress, disabled}) {
     return (
@@ -36,7 +37,10 @@ class AddDeck extends Component {
             name: ""
         }))
 
-        submitDeck({deck, key});
+        submitDeck({deck, key})
+
+        clearLocalNotification()
+            .then(setLocalNotification)
     }
 
     onChangeText = (text) => {

@@ -1,9 +1,8 @@
-import { AsyncStorage } from 'react-native'
-
 export const DECKS_STORAGE_KEY = 'MobileFlashcards:decks'
 
 export function formatDecks(results) {
-    console.log("results:")
-    console.log(results)
-    return results === null ? "test" : null
+    console.log("format")
+    console.log(JSON.parse(results))
+
+    return results === null ? null : results
 }
