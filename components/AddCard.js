@@ -50,7 +50,7 @@ class AddCard extends Component {
             answer: ""
         }))
 
-        submitCard({deck, card});
+        submitCard({ deck, card })
     }
 
     render() {

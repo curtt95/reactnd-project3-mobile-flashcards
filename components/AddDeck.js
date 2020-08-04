@@ -37,7 +37,7 @@ class AddDeck extends Component {
             name: ""
         }))
 
-        submitDeck({deck, key})
+        submitDeck({ deck, key })
 
         clearLocalNotification()
             .then(setLocalNotification)
