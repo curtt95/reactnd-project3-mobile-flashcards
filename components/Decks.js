@@ -23,36 +23,36 @@ class Decks extends Component {
       })
   }
 
-    render() {
-      const { ready } = this.state
-      const { decks } = this.props
+  render() {
+    const { ready } = this.state
+    const { decks } = this.props
 
-      const renderItem = ({ item }) => (
-        <TouchableOpacity 
-          style={styles.item}
-          onPress={() => this.props.navigation.navigate(
-            'Deck',
-            { key : item.name }
-          )}>
-          <Text style={styles.title}>{item.name}</Text>
-          <Text style={styles.cardCounter}>{`Cards: ${item.cards.length}`}</Text>
-        </TouchableOpacity>
-      );
+    const renderItem = ({ item }) => (
+      <TouchableOpacity 
+        style={styles.item}
+        onPress={() => this.props.navigation.navigate(
+          'Deck',
+          { key : item.name }
+        )}>
+        <Text style={styles.title}>{item.name}</Text>
+        <Text style={styles.cardCounter}>{`Cards: ${item.cards.length}`}</Text>
+      </TouchableOpacity>
+    )
 
-      if (ready) {
-        return (
-            <SafeAreaView style={styles.container}>
-                <FlatList
-                    data={Object.values(decks)}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.name}
-                />
-            </SafeAreaView>
-        )
-      } else {
-        return <View></View>
-      }
+    if (ready) {
+      return (
+          <SafeAreaView style={styles.container}>
+              <FlatList
+                  data={Object.values(decks)}
+                  renderItem={renderItem}
+                  keyExtractor={item => item.name}
+              />
+          </SafeAreaView>
+      )
+    } else {
+      return <View></View>
     }
+  }
 }
 
 const styles = StyleSheet.create({
@@ -61,14 +61,16 @@ const styles = StyleSheet.create({
       marginTop: 10,
     },
     item: {
-      backgroundColor: blue,
+      borderColor: blue,
+      borderWidth: 3,
+      borderRadius: 15,
       padding: 20,
       marginVertical: 8,
       marginHorizontal: 16,
     },
     title: {
       fontSize: 32,
-      color: white,
+      color: blue,
       textAlign: 'center'
     },
     cardCounter: {

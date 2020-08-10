@@ -1,12 +1,28 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { connect } from "react-redux";
-import { blue, white, orange, gray, red } from "../utils/colors";
+import { blue, white, orange, gray, red, green } from "../utils/colors";
 import SubmitButton from "./SubmitButton";
+import { removeDeck } from '../actions'
+import { submitRemoveDeck } from '../utils/api'
 
 class Deck extends Component {
   removeDeck = () => {
-      
+    const key = this.props.deck
+    const deck = {
+        name: key.name
+    }
+
+    this.props.dispatch(removeDeck({
+        [key]: deck
+    }));
+
+    submitRemoveDeck({ deck })
+
+    this.props.navigation.navigate('Decks')
+
+    //clearLocalNotification()
+     //   .then(setLocalNotification)
   }
 
   render() {
@@ -14,27 +30,40 @@ class Deck extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>{deck.name}</Text>
-        <Text style={styles.cardCounter}>{`Cards: ${deck.cards.length}`}</Text>
-        <SubmitButton
-          onPress={() =>
-            this.props.navigation.navigate("Quiz", { key: deck.name })
-          }
-          text="Start Quiz"
-          disabled={false}
-          color={orange}
-        />
-        <SubmitButton
-          onPress={() =>
-            this.props.navigation.navigate("AddCard", { key: deck.name })
-          }
-          text="Add Card"
-          disabled={false}
-          color={gray}
-        />
-        <TouchableOpacity onPress={this.removeDeck}>
-          <Text style={{ color: red, fontSize: 18 }}>Delete Deck</Text>
-        </TouchableOpacity>
+        <View>
+          <Text style={styles.title}>{deck.name}</Text>
+          <Text style={styles.cardCounter}>{`Cards: ${deck.cards.length}`}</Text>
+        </View>
+        <View style={styles.buttons}>
+          <View style={{paddingRight: 5}}>
+            <SubmitButton
+              onPress={() =>
+                this.props.navigation.navigate("Quiz", { key: deck.name })
+              }
+              text="Start Quiz"
+              disabled={false}
+              color={green}
+            />
+          </View>
+          <View style={{paddingRight: 5}}>
+            <SubmitButton
+              onPress={() =>
+                this.props.navigation.navigate("AddCard", { key: deck.name })
+              }
+              text="Add Card"
+              disabled={false}
+              color={gray}
+            />
+          </View>
+        </View>
+        <View style={{flexDirection: 'column', padding: 20}}>
+          <SubmitButton
+              onPress={this.removeDeck}
+              text="Remove Deck"
+              disabled={false}
+              color={red}
+            />
+        </View>
       </View>
     );
   }
@@ -60,7 +89,7 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
     paddingRight: 30,
     height: 45,
-    borderRadius: 2,
+    borderRadius: 7,
     justifyContent: "center",
   },
   submitBtnText: {
@@ -72,12 +101,24 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: blue,
     textAlign: "center",
+    padding: 7
   },
   cardCounter: {
-    fontSize: 18,
-    color: gray,
+    fontSize: 25,
+    color: orange,
     textAlign: "center",
+    padding: 5
   },
+  deleteBtn: {
+    flexDirection: 'column',
+    color: red, 
+    fontSize: 18,
+    padding: 20
+  },
+  buttons: {
+    marginTop: 20,
+    flexDirection: 'row'
+  }
 });
 
 function mapStateToProps(decks, { route }) {

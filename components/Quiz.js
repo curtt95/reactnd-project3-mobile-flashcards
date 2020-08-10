@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { blue, white, gray, red, green, orange } from '../utils/colors'
+import { blue, white, gray, red, green, orange, lightgreen } from '../utils/colors'
 import SubmitButton from './SubmitButton'
 
 class Quiz extends Component {
@@ -61,29 +61,45 @@ class Quiz extends Component {
         if (questionNumber === cards.length) {
             return (
                 <View style={styles.container}>
-                    <Text style={styles.title}>Score: {score > 0 ? Math.round((score / cards.length) * 100, 2) : 0}%</Text>
-                    <SubmitButton onPress={() =>
-                        this.props.navigation.navigate("Deck", { key: deckname })} 
-                        text="Back to Deck" 
-                        color={green}/>
-                    <SubmitButton onPress={this.restartQuiz} text="Restart Quiz" color={orange}/>
+                    <Text style={[styles.title, {padding: 30}]}>Score: {score > 0 ? Math.round((score / cards.length) * 100, 2) : 0}%</Text>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={{paddingRight: 5}}>
+                            <SubmitButton onPress={() =>
+                                this.props.navigation.navigate("Deck", { key: deckname })} 
+                                text="Back to Deck" 
+                                color={green}/>
+                        </View>
+                        <View style={{paddingLeft: 5}}>
+                            <SubmitButton onPress={this.restartQuiz} text="Restart Quiz" color={orange}/>
+                        </View>
+                    </View>
                 </View>
             )
         }
 
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>Question {questionNumber + 1}</Text>
-                <Text style={styles.question}>Score: {score}</Text>
-                <Text>{cards[questionNumber].question}</Text>
+                <View style={styles.questionContainer}>
+                    <Text style={styles.title}>Question {questionNumber + 1}</Text>
+                    <Text style={styles.question}>Score: {score}</Text>
+                    <Text style={styles.questionDetails}>{cards[questionNumber].question}</Text>
 
-                {showAnswer && <Text>{cards[questionNumber].answer}</Text>}
+                    {showAnswer && <Text style={styles.answerDetails}>{cards[questionNumber].answer}</Text>}
 
-                <SubmitButton onPress={this.toggleAnswer} text={showAnswer ? "Hide Answer" : "Show Answer"} color={blue}/>
+                    <SubmitButton onPress={this.toggleAnswer} text={showAnswer ? "Hide Answer" : "Show Answer"} color={blue}/>
 
-                <Text style={styles.title}>Answer:</Text>
-                <SubmitButton onPress={this.handleCorrect} text="Correct" color={green}/>
-                <SubmitButton onPress={this.handleIncorrect} text="Incorrect" color={red}/>
+                </View>
+                <View style={{padding: 20}}>
+                    <Text style={styles.title}>Answer:</Text>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={{paddingRight: 5}}>
+                            <SubmitButton onPress={this.handleCorrect} text="Correct" color={green}/>
+                        </View>
+                        <View style={{paddingLeft: 5}}>
+                            <SubmitButton onPress={this.handleIncorrect} text="Incorrect" color={red}/>
+                        </View>
+                    </View>
+                </View>
             </View>
         )
     }
@@ -120,13 +136,31 @@ const styles = StyleSheet.create({
     title: {
       fontSize: 32,
       color: blue,
-      textAlign: 'center'
+      textAlign: 'center',
+      padding: 8
     },
     question: {
-      fontSize: 18,
-      color: gray,
-      textAlign: 'center'
+      fontSize: 25,
+      textAlign: 'center',
+      padding: 10
     },
+    questionDetails: {
+        fontSize: 25,
+        textAlign: 'center',
+        padding: 10
+    },
+    answerDetails: {
+        fontSize: 25,
+        textAlign: 'center',
+        padding: 10,
+        color: green
+    },
+    questionContainer: {
+        backgroundColor: lightgreen,
+        borderRadius: 20,
+        padding: 50,
+        width: '95%'
+    }
 });
 
 function mapStateToProps(decks, { route }) {

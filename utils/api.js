@@ -27,3 +27,13 @@ export function submitCard({ deck, card }) {
         AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks))
     });
 }
+
+export function submitRemoveDeck({ deck }) {
+    return AsyncStorage.getItem(DECKS_STORAGE_KEY).then((results) => {
+        const decks = JSON.parse(results)
+        decks[deck.name] = undefined
+        delete decks[deck.name]
+
+        AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks))
+    });
+}

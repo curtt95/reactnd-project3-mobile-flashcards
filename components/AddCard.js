@@ -58,23 +58,33 @@ class AddCard extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={{color: blue, fontSize: 25}}>
+                <Text style={{color: blue, fontSize: 25, padding: 7}}>
                     Add Card
                 </Text>
-                <TextInput
-                    id="question"
-                    style={styles.input}
-                    onChangeText={(text) => this.onChangeQuestion(text)}
-                    placeholder="Question..."
-                    value={question}
-                />
-                <TextInput
-                    id="answer"
-                    style={styles.input}
-                    onChangeText={(text) => this.onChangeAnswer(text)}
-                    placeholder="Answer..."
-                    value={answer}
-                />
+                <View style={styles.inputContainer}>
+                    <Text style={{ fontSize: 20, padding: 12, textAlign: 'center'}}>
+                        What is your question?
+                    </Text>
+                    <TextInput
+                        id="question"
+                        style={styles.input}
+                        onChangeText={(text) => this.onChangeQuestion(text)}
+                        placeholder="Question..."
+                        value={question}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Text style={{ fontSize: 20, padding: 12, textAlign: 'center'}}>
+                        What is your answer?
+                    </Text>
+                    <TextInput
+                        id="answer"
+                        style={styles.input}
+                        onChangeText={(text) => this.onChangeAnswer(text)}
+                        placeholder="Answer..."
+                        value={answer}
+                    />
+                </View>
                 <SubmitBtn onPress={this.submit} disabled={question === "" & answer === ""}/>
             </View>
         )
@@ -101,7 +111,7 @@ const styles = StyleSheet.create({
         paddingLeft: 30,
         paddingRight: 30,
         height: 45,
-        borderRadius: 2,
+        borderRadius: 7,
         justifyContent: 'center'
     },
     submitBtnText: {
@@ -122,6 +132,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: 350,
         fontSize: 20,
+        padding: 10
+    },
+    inputContainer: {
         padding: 10
     }
 });

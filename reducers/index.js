@@ -1,4 +1,4 @@
-import { RECEIVE_DECKS, ADD_DECK, ADD_CARD } from '../actions'
+import { RECEIVE_DECKS, ADD_DECK, ADD_CARD, REMOVE_DECK } from '../actions'
 
 function decks(state = {}, action) {
     switch(action.type) {
@@ -19,6 +19,11 @@ function decks(state = {}, action) {
                     name: action.deck.name,
                     cards: action.deck.cards.concat(action.card)
                 }
+            }
+        case REMOVE_DECK:
+            return {
+                ...state,
+                [action.deck.name]: undefined
             }
         default:
             return state

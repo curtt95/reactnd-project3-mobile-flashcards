@@ -54,16 +54,20 @@ class AddDeck extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={{color: blue, fontSize: 25}}>
+                <Text style={styles.item}>
                     Create Deck
                 </Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={(text) => this.onChangeText(text)}
-                    placeholder="Deck Name..."
-                    value={name}
-                />
-                <SubmitBtn onPress={this.submit} disabled={name === ""}/>
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(text) => this.onChangeText(text)}
+                        placeholder="Deck Name..."
+                        value={name}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <SubmitBtn onPress={this.submit} disabled={name === ""}/>
+                </View>
             </View>
         )
     }
@@ -89,7 +93,7 @@ const styles = StyleSheet.create({
         paddingLeft: 30,
         paddingRight: 30,
         height: 45,
-        borderRadius: 2,
+        borderRadius: 10,
         justifyContent: 'center'
     },
     submitBtnText: {
@@ -110,6 +114,14 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: 350,
         fontSize: 20,
+        padding: 10
+    },
+    item: {
+        color: blue, 
+        fontSize: 25,
+        padding: 15
+    },
+    inputContainer: {
         padding: 10
     }
 });
