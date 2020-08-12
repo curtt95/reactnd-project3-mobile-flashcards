@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput } from 'react-native'
 import { connect } from 'react-redux'
 import { submitDeck } from '../utils/api'
 import { addDeck } from '../actions'
-import { white, blue } from '../utils/colors'
+import { white, blue, red } from '../utils/colors'
 import SubmitButton from './SubmitButton'
 
 /**
@@ -53,6 +53,7 @@ class AddDeck extends Component {
 
     render() {
         const { name } = this.state // get name from state
+        const { decks } = this.props
 
         return (
             <View style={styles.container}>
@@ -67,10 +68,13 @@ class AddDeck extends Component {
                         placeholder="Deck Name..."
                         value={name}
                     />
+
+                    {/* Check for existing name */}
+                    {decks.hasOwnProperty(name) && <Text style={{color: red, textAlign: 'center'}}>A deck already exists with that name!</Text>}
                 </View>
                 <View style={styles.inputContainer}>
                     {/* Submit the form by calling SubmitButton component */}
-                    <SubmitButton onPress={this.submit} disabled={name === ""} color={blue} text="Add Deck"/>
+                    <SubmitButton onPress={this.submit} disabled={name === "" || decks.hasOwnProperty(name)} color={blue} text="Add Deck"/>
                 </View>
             </View>
         )
@@ -131,6 +135,15 @@ const styles = StyleSheet.create({
     }
 });
 
-// TODO: check for existing deck
+/**
+  * @description mapStateToProps function
+  * @param {Object} from_store - Get data from store
+  * @return {Object} decks - 
+  */
+function mapStateToProps(decks) {
+    return {
+        decks
+    }
+}
 
-export default connect()(AddDeck)
+export default connect(mapStateToProps)(AddDeck)

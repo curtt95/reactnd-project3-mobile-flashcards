@@ -1,7 +1,10 @@
 import React from 'react'
 import { TouchableOpacity, StyleSheet, Text } from 'react-native'
-import { blue, gray, white, green, orange } from '../utils/colors'
+import { blue, gray, white } from '../utils/colors'
 
+/**
+ * Submit Button function
+ */
 export default function SubmitButton({onPress, text, disabled, color}) {
     return (
         <TouchableOpacity
@@ -13,6 +16,7 @@ export default function SubmitButton({onPress, text, disabled, color}) {
     )
 }
 
+// component styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,

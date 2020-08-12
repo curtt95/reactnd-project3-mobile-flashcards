@@ -1,33 +1,42 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { blue, white, orange, gray, red, green } from "../utils/colors";
 import SubmitButton from "./SubmitButton";
 import { removeDeck } from '../actions'
 import { submitRemoveDeck } from '../utils/api'
 
+/**
+ * Deck component
+ */
 class Deck extends Component {
+  /**
+   * @description code to run when the component mounts
+   */
   componentDidMount() {
-    this.props.navigation.setOptions({ title: this.props.deck.name })
+    this.props.navigation.setOptions({ title: this.props.deck.name }) // set title in nav
   }
 
+  /**
+   * @description handling removing a deck
+   */
   removeDeck = () => {
-    const key = this.props.deck
-    const deck = {
+    const key = this.props.deck // get key
+    const deck = { // create deck option
         name: key.name
     }
 
-    this.props.dispatch(removeDeck(deck))
+    this.props.dispatch(removeDeck(deck)) // dispatch removeDeck action
 
-    submitRemoveDeck({ deck })
+    submitRemoveDeck({ deck }) // call submit remove deck in api
 
-    this.props.navigation.navigate('Home')
+    this.props.navigation.navigate('Home') // navigate back to home
   }
 
   render() {
-    const { deck } = this.props
+    const { deck } = this.props // get deck from props
 
-    if (deck === undefined) {
+    if (deck === undefined) { // handle deck undefined
       return(
         <View></View>
       )
@@ -37,10 +46,12 @@ class Deck extends Component {
       <View style={styles.container}>
         <View>
           <Text style={styles.title}>{deck.name}</Text>
+          {/* Card counter */}
           <Text style={styles.cardCounter}>{`Cards: ${deck.cards.length}`}</Text>
         </View>
         <View style={styles.buttons}>
           <View style={{paddingRight: 5}}>
+            {/* Submit button to start quiz */}
             <SubmitButton
               onPress={() =>
                 this.props.navigation.navigate("Quiz", { key: deck.name })
@@ -51,6 +62,7 @@ class Deck extends Component {
             />
           </View>
           <View style={{paddingRight: 5}}>
+            {/* Submit button to add a card */}
             <SubmitButton
               onPress={() =>
                 this.props.navigation.navigate("AddCard", { key: deck.name })
@@ -62,6 +74,7 @@ class Deck extends Component {
           </View>
         </View>
         <View style={{flexDirection: 'column', padding: 20}}>
+          {/* Submit button to remove a deck */}
           <SubmitButton
               onPress={this.removeDeck}
               text="Remove Deck"
@@ -74,6 +87,7 @@ class Deck extends Component {
   }
 }
 
+// component styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -126,13 +140,19 @@ const styles = StyleSheet.create({
   }
 });
 
+/**
+  * @description mapStateToProps function
+  * @param {Object} from_store - Get data from store
+  * @param {Object} from_parent - Get props passed from parent
+  * @return {Object} decks - 
+  */
 function mapStateToProps(decks, { route }) {
-  const { key } = route.params
+  const { key } = route.params // get key from route
 
   return {
-    decks: decks,
-    deck: decks[key]
-  };
+    decks: decks, // decks
+    deck: decks[key] // specific deck
+  }
 }
 
 export default connect(mapStateToProps)(Deck);

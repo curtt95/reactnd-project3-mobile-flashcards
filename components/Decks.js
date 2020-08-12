@@ -1,36 +1,44 @@
 import React, { Component } from 'react'
-import { View, Text, FlatList, SafeAreaView, StyleSheet, TouchableOpcity } from 'react-native'
+import { View, Text, FlatList, SafeAreaView, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
-import { blue, white, orange } from '../utils/colors'
+import { blue, orange } from '../utils/colors'
 import { receiveDecks } from '../actions'
 import { fetchDecks } from '../utils/api'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
+/**
+ * Decks component
+ */
 class Decks extends Component {
-  state = {
+  state = { // initial state
     ready: false
   }
 
+  /**
+   * @description code to run when the component mounts
+   */
   componentDidMount() {
-    const { dispatch } = this.props
+    const { dispatch } = this.props // get dispatch from props
 
+    // call fetch decks in api
     fetchDecks()
         .then((decks) => dispatch(receiveDecks(decks)))
         .then(() => {
           this.setState({
-            ready: true
+            ready: true // update state
           })
       })
   }
 
   render() {
-    const { ready } = this.state
-    const { decks } = this.props
+    const { ready } = this.state // get ready from state
+    const { decks } = this.props // get decks from props
 
+    // render item
     const renderItem = ({ item }) => (
       <TouchableOpacity 
         style={styles.item}
-        onPress={() => this.props.navigation.navigate(
+        onPress={() => this.props.navigation.navigate( // navigate to deck
           'Deck',
           { key : item.name }
         )}>
@@ -39,9 +47,11 @@ class Decks extends Component {
       </TouchableOpacity>
     )
 
+    // if ready
     if (ready) {
       return (
           <SafeAreaView style={styles.container}>
+            {/* Render flatlist component to render decks */}
               <FlatList
                   data={Object.values(decks)}
                   renderItem={renderItem}
@@ -55,6 +65,7 @@ class Decks extends Component {
   }
 }
 
+// component styles
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -80,9 +91,14 @@ const styles = StyleSheet.create({
     },
   });
 
+/**
+  * @description mapStateToProps function
+  * @param {Object} from_store - Get data from store
+  * @return {Object} decks - 
+  */
 function mapStateToProps(decks) {
     return {
-        decks
+        decks // return decks
     }
 }
 
