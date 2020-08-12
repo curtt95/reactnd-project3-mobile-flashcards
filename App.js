@@ -52,9 +52,9 @@ const TabNav = () => (
         tabBarOptions={{
             header: null,
             activeTintColor: Platform.OS === "ios" ? blue : white,
-            showIcon: true,
+            showIcon: Platform.OS === "ios" ? true : false,
             style: {
-                height: 80,
+                height: 60,
                 backgroundColor: Platform.OS === "ios" ? white : blue,
                 shadowColor: "rgba(0, 0, 0, 0.24)",
                 shadowOffset: {

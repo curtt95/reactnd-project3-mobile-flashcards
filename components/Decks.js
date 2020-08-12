@@ -52,11 +52,17 @@ class Decks extends Component {
       return (
           <SafeAreaView style={styles.container}>
             {/* Render flatlist component to render decks */}
+            {decks.length === 0 ?
               <FlatList
                   data={Object.values(decks)}
                   renderItem={renderItem}
                   keyExtractor={item => item.name}
               />
+              : 
+                <View style={{flexDirection: 'row', flexDirection: 'row', justifyContent: 'center'}}>
+                  <Text style={{color: blue, textAlign: 'center', fontSize: 20}}>You don't have any decks yet...</Text>
+                </View>
+            }
           </SafeAreaView>
       )
     } else {
@@ -69,7 +75,7 @@ class Decks extends Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      marginTop: 10,
+      marginTop: 10
     },
     item: {
       borderColor: blue,
@@ -88,7 +94,7 @@ const styles = StyleSheet.create({
       fontSize: 18,
       color: orange,
       textAlign: 'center'
-    },
+    }
   });
 
 /**

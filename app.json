@@ -1,13 +1,16 @@
 {
   "expo": {
-    "name": "reactnd-project3-mobile-flashcards",
-    "slug": "reactnd-project3-mobile-flashcards",
+    "name": "MobileFlashcards",
+    "slug": "mobileflashcards",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/NotesIcon.png",
     "splash": {
       "resizeMode": "contain",
       "backgroundColor": "#4e4cb8"
+    },
+    "notification": {
+      "icon": "./assets/NotesIcon.png"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -16,10 +19,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "org.mobileflashcards.exp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "android": {
+      "package": "org.mobileflashcards.exp"
     }
   }
 }
