@@ -1,8 +1,12 @@
 import { AsyncStorage, StyleSheet } from 'react-native'
 import { Notifications } from 'expo'
-import { Permissions } from 'expo-permissions'
+import * as Permissions from 'expo-permissions';
 
 const NOTIFICATION_KEY = 'MobileFlashcards:notifications'
+
+export function generateUID () {
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+}
 
 export function getDailyReminderValue() {
     return {

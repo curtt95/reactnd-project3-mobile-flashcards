@@ -4,11 +4,10 @@
     "slug": "reactnd-project3-mobile-flashcards",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/NotesIcon.png",
     "splash": {
-      "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#4e4cb8"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

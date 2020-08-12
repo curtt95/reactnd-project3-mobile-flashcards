@@ -21,9 +21,9 @@ function decks(state = {}, action) {
                 }
             }
         case REMOVE_DECK:
+            delete state[action.deck.name]
             return {
-                ...state,
-                [action.deck.name]: undefined
+                ...state
             }
         default:
             return state

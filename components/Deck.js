@@ -7,26 +7,31 @@ import { removeDeck } from '../actions'
 import { submitRemoveDeck } from '../utils/api'
 
 class Deck extends Component {
+  componentDidMount() {
+    this.props.navigation.setOptions({ title: this.props.deck.name })
+  }
+
   removeDeck = () => {
     const key = this.props.deck
     const deck = {
         name: key.name
     }
 
-    this.props.dispatch(removeDeck({
-        [key]: deck
-    }));
+    this.props.dispatch(removeDeck(deck))
 
     submitRemoveDeck({ deck })
 
-    this.props.navigation.navigate('Decks')
-
-    //clearLocalNotification()
-     //   .then(setLocalNotification)
+    this.props.navigation.navigate('Home')
   }
 
   render() {
-    const { deck } = this.props;
+    const { deck } = this.props
+
+    if (deck === undefined) {
+      return(
+        <View></View>
+      )
+    }
 
     return (
       <View style={styles.container}>
@@ -122,10 +127,11 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(decks, { route }) {
-  const { key } = route.params;
+  const { key } = route.params
 
   return {
-    deck: decks[key],
+    decks: decks,
+    deck: decks[key]
   };
 }
 

@@ -1,56 +1,58 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, TextInput, Platform } from 'react-native'
+import { View, Text, StyleSheet, TextInput } from 'react-native'
 import { connect } from 'react-redux'
 import { submitDeck } from '../utils/api'
 import { addDeck } from '../actions'
 import { white, blue } from '../utils/colors'
-import { clearLocalNotification, setLocalNotification } from '../utils/helpers'
+import SubmitButton from './SubmitButton'
 
-function SubmitBtn({onPress, disabled}) {
-    return (
-        <TouchableOpacity
-            style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
-            onPress={onPress}
-            disabled={disabled}>
-            <Text style={styles.submitBtnText}>Create Deck</Text>
-        </TouchableOpacity>
-    )
-}
-
+/**
+ * Add a deck component
+ */
 class AddDeck extends Component {
-    state = {
+    state = { // initial state
         name: ""
     }
 
+    /**
+     * @description handles submission of the form
+     */
     submit = () => {
-        const key = this.state.name
-        const deck = {
+        const key = this.state.name // sets key to name
+        const deck = { // create new deck object
             name: this.state.name,
             cards: []
         }
 
+        // dispatch addDeck action
         this.props.dispatch(addDeck({
             [key]: deck
         }));
 
-        this.setState(() => ({
+        this.setState(() => ({ // reset state
             name: ""
         }))
 
-        submitDeck({ deck, key })
+        submitDeck({ deck, key }) // submit deck in api
 
-        clearLocalNotification()
-            .then(setLocalNotification)
+        this.props.navigation.navigate( // navigate to deck
+            'Deck',
+            { key : key }
+        )
     }
 
+    /**
+     * @description handles the onchange for the text
+     * @param String text - The new deck text
+     */
     onChangeText = (text) => {
-        this.setState({
+        this.setState({ // update state
             name: text
         })
     }
 
     render() {
-        const { name } = this.state
+        const { name } = this.state // get name from state
 
         return (
             <View style={styles.container}>
@@ -58,6 +60,7 @@ class AddDeck extends Component {
                     Create Deck
                 </Text>
                 <View style={styles.inputContainer}>
+                    {/* Text input for deck name */}
                     <TextInput
                         style={styles.input}
                         onChangeText={(text) => this.onChangeText(text)}
@@ -66,13 +69,15 @@ class AddDeck extends Component {
                     />
                 </View>
                 <View style={styles.inputContainer}>
-                    <SubmitBtn onPress={this.submit} disabled={name === ""}/>
+                    {/* Submit the form by calling SubmitButton component */}
+                    <SubmitButton onPress={this.submit} disabled={name === ""} color={blue} text="Add Deck"/>
                 </View>
             </View>
         )
     }
 }
 
+// component styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -125,5 +130,7 @@ const styles = StyleSheet.create({
         padding: 10
     }
 });
+
+// TODO: check for existing deck
 
 export default connect()(AddDeck)

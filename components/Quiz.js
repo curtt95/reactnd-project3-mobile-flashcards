@@ -3,12 +3,17 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { blue, white, gray, red, green, orange, lightgreen } from '../utils/colors'
 import SubmitButton from './SubmitButton'
+import { clearLocalNotification, setLocalNotification } from '../utils/helpers'
 
 class Quiz extends Component {
     state = {
         score: 0,
         questionNumber: 0,
         showAnswer: false
+    }
+
+    componentDidMount() {
+        this.props.navigation.setOptions({ title: this.props.deckname + " - Quiz" })
     }
 
     toggleAnswer = () => {
@@ -59,6 +64,7 @@ class Quiz extends Component {
         }
 
         if (questionNumber === cards.length) {
+            clearLocalNotification().then(setLocalNotification);
             return (
                 <View style={styles.container}>
                     <Text style={[styles.title, {padding: 30}]}>Score: {score > 0 ? Math.round((score / cards.length) * 100, 2) : 0}%</Text>
@@ -80,7 +86,7 @@ class Quiz extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.questionContainer}>
-                    <Text style={styles.title}>Question {questionNumber + 1}</Text>
+                    <Text style={styles.title}>Question {questionNumber + 1}/{cards.length}</Text>
                     <Text style={styles.question}>Score: {score}</Text>
                     <Text style={styles.questionDetails}>{cards[questionNumber].question}</Text>
 

@@ -1,60 +1,73 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, Text, TextInput } from 'react-native'
 import { connect } from 'react-redux'
 import { blue, white } from '../utils/colors'
 import { addCard } from '../actions'
 import { submitCard } from '../utils/api'
+import SubmitButton from './SubmitButton'
 
-function SubmitBtn({onPress, disabled}) {
-    return (
-        <TouchableOpacity
-            style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
-            onPress={onPress}
-            disabled={disabled}>
-            <Text style={styles.submitBtnText}>Add Card</Text>
-        </TouchableOpacity>
-    )
-}
-
+/**
+ * Add a card to a deck component
+ */
 class AddCard extends Component {
-    state = {
+    state = { // initial state
         question: "",
         answer: ""
     }
 
+    /**
+     * @description code to run when the component mounts
+     */
+    componentDidMount() {
+        this.props.navigation.setOptions({ title: this.props.deck.name + " - Add Card" }) // update title in nav
+    }
+
+    /**
+     * @description handles the onchange for the question
+     * @param String component - The new question text
+     */
     onChangeQuestion = (ques) => {
         this.setState({
-            question: ques
+            question: ques // update state with question
         });
     }
 
+    /**
+     * @description handles the onchange for the answer
+     * @param String ans - The new answer text
+     */
     onChangeAnswer = (ans) => {
         this.setState({
-            answer: ans
+            answer: ans // update state with answer
         });
     }
 
+    /**
+     * @description handles submission of the form
+     */
     submit = () => {
-        const { question, answer } = this.state
-        const { deck } = this.props
+        const { question, answer } = this.state // get from state
+        const { deck } = this.props // get deck from props
 
-        const card = {
+        const card = { // create new card
             question: question,
             answer: answer
         }
 
-        this.props.dispatch(addCard(deck, card))
+        this.props.dispatch(addCard(deck, card)) // dispatch AddCard action
 
-        this.setState(() => ({
+        this.setState(() => ({ // reset state
             question: "",
             answer: ""
         }))
 
-        submitCard({ deck, card })
+        submitCard({ deck, card }) // call submitCard in api
+
+        this.props.navigation.navigate('Deck') // navigate back to the deck
     }
 
     render() {
-        const { question, answer } = this.state
+        const { question, answer } = this.state // grab question and answer from state
 
         return (
             <View style={styles.container}>
@@ -65,6 +78,7 @@ class AddCard extends Component {
                     <Text style={{ fontSize: 20, padding: 12, textAlign: 'center'}}>
                         What is your question?
                     </Text>
+                    {/* Text input for question */}
                     <TextInput
                         id="question"
                         style={styles.input}
@@ -77,6 +91,7 @@ class AddCard extends Component {
                     <Text style={{ fontSize: 20, padding: 12, textAlign: 'center'}}>
                         What is your answer?
                     </Text>
+                    {/* Text input for answer */}
                     <TextInput
                         id="answer"
                         style={styles.input}
@@ -85,12 +100,14 @@ class AddCard extends Component {
                         value={answer}
                     />
                 </View>
-                <SubmitBtn onPress={this.submit} disabled={question === "" & answer === ""}/>
+                {/* Submit the form by calling SubmitButton component */}
+                <SubmitButton onPress={this.submit} disabled={question === "" & answer === ""} color={blue} text="Add Card"/>
             </View>
         )
     }
 }
 
+// styles for this class
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -139,11 +156,17 @@ const styles = StyleSheet.create({
     }
 });
 
+/**
+  * @description mapStateToProps function
+  * @param {Object} from_store - Get data from store
+  * @param {Object} from_parent - Get props passed from parent
+  * @return {Object} decks - 
+  */
 function mapStateToProps(decks, { route }) {
-    const { key } = route.params
+    const { key } = route.params // get key from route params
 
     return {
-        deck: decks[key]
+        deck: decks[key] // return deck
     }
 }
 
