@@ -52,7 +52,7 @@ class Decks extends Component {
       return (
           <SafeAreaView style={styles.container}>
             {/* Render flatlist component to render decks */}
-            {decks.length === 0 ?
+            {Object.keys(decks).length > 0 ?
               <FlatList
                   data={Object.values(decks)}
                   renderItem={renderItem}
